@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DisplayInformation : MonoBehaviour
 {
     private GlobalReference globalReference;
-    private Text health, rightAmmo, leftAmmo, killCount, enemyCount, accuracy;
+    private Text health, rightAmmo, leftAmmo, killCount, enemyCount, accuracy, killsPerMinute, formattedTime, ammoTimer;
 
 
     void Start()
@@ -19,8 +19,9 @@ public class DisplayInformation : MonoBehaviour
         killCount = transform.GetChild(3).GetComponent<Text>(); 
         enemyCount = transform.GetChild(4).GetComponent<Text>();
         accuracy = transform.GetChild(5).GetComponent<Text>();
-
-
+        killsPerMinute = transform.GetChild(6).GetComponent<Text>();
+        formattedTime = transform.GetChild(7).GetComponent<Text>();
+        ammoTimer = transform.GetChild(8).GetComponent<Text>();
     }
 
 
@@ -34,5 +35,9 @@ public class DisplayInformation : MonoBehaviour
         killCount.text = $"Kills: {globalReference.killCount}";
         enemyCount.text = $"Hostile Count: {globalReference.enemyCount}";
         accuracy.text = $"Accuracy: {globalReference.accuracy:F2}%";
+        killsPerMinute.text = $"Kills/Minute: {globalReference.killsPerMinute:F2}";
+
+        formattedTime.text = $"{globalReference.formattedTime}";
+        ammoTimer.text = $"Ammo in {globalReference.timeToNextDrop:F2} seconds";
     }
 }

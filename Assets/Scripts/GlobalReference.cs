@@ -17,6 +17,11 @@ public class GlobalReference : MonoBehaviour
     public int hits;
     public int misses;
     public float accuracy;
+    public float killsPerMinute;
+    public string formattedTime;
+    public float timeToNextDrop;
+
+    private float timer;
 
     private PlayerBehaviour playerBehaviour;
     private EnemySpawner enemySpawner;
@@ -33,6 +38,8 @@ public class GlobalReference : MonoBehaviour
 
     void Update()
     {
+        timer += Time.deltaTime;
+
         playerHealth = playerBehaviour.health;
 
         rightAmmoClip = ammoManagementRight.magazineAmmo;
@@ -47,5 +54,11 @@ public class GlobalReference : MonoBehaviour
         {
             accuracy = (((float)hits) / (hits + misses)) * 100;
         }
+
+        killsPerMinute = (killCount / timer) * 60;
+
+        int minutes = Mathf.FloorToInt(timer / 60F);
+        int seconds = Mathf.FloorToInt(timer - minutes * 60);
+        formattedTime = $"{minutes:0}:{seconds:00}";
     }
 }

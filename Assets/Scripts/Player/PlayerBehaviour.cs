@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     public AudioSource painSource;
+    public Animator animator;
 
     public float maxHealth = 100;
     public float health;
@@ -31,6 +32,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        animator.SetTrigger("isHit");
         health -= damage;
         health = Mathf.Clamp(health, 0, maxHealth);
         painSource.Play();

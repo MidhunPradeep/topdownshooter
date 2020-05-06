@@ -19,9 +19,14 @@ public class AmmoManagement : MonoBehaviour
     public int magazineCount;
     public int magazineAmmo;
 
+    private bool reloading;
+
+    private GlobalReference globalReference;
+
 
     void Start()
     {
+        globalReference = GameObject.Find("Global Reference").GetComponent<GlobalReference>();
         magazineCount = maxMagazineCount;
         Reload();
     }
@@ -30,6 +35,7 @@ public class AmmoManagement : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        globalReference.timeToNextDrop = supplyDropDelay - timer;
         if (timer > supplyDropDelay)
         {
             AddMagazine();
@@ -45,7 +51,11 @@ public class AmmoManagement : MonoBehaviour
 
     public void Reload()
     {
-        StartCoroutine(ReloadCoroutine());
+        if (!reloading)
+        {
+            reloading = true;
+            StartCoroutine(ReloadCoroutine());
+        }
     }
 
     IEnumerator ReloadCoroutine()
@@ -58,6 +68,7 @@ public class AmmoManagement : MonoBehaviour
             yield return new WaitForSeconds(reloadTime);
             magazineAmmo = magazineSize;
             reloadText.SetActive(false);
+            reloading = false;
         }
     }
 

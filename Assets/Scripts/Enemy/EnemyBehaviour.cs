@@ -25,6 +25,7 @@ public class EnemyBehaviour : MonoBehaviour
     private AmmoManagement ammoManagementRight;
     private AmmoManagement ammoManagementLeft;
     private GlobalReference globalReference;
+    private Animator animator;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         enemySpawner = GameObject.Find("Spawner").GetComponent<EnemySpawner>();
         playerBehaviour = player.GetComponent<PlayerBehaviour>();
@@ -84,11 +86,6 @@ public class EnemyBehaviour : MonoBehaviour
                 movement.x = Mathf.Clamp(lookDirection.x, -1, 1);
                 movement.y = Mathf.Clamp(lookDirection.y, -1, 1);
             }
-            //else if (attackTimer > attackFrequency)
-            //{
-            //    AttackPlayer();
-            //    attackTimer = 0;
-            //}
         }
         else
         {
@@ -132,6 +129,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        animator.SetTrigger("isHit");
         health -= damage;
     }
 
@@ -142,7 +140,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Die()
     {
-        if (Random.Range(1, 4 + 1) == 1)
+        if (Random.Range(1, 3 + 1) == 1)
         {
             if (!playerBehaviour.AddHealth(Random.Range(1f, 20f)))
             {
